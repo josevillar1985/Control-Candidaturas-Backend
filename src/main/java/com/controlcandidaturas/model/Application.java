@@ -25,7 +25,7 @@ public class Application {
     private String cv;
     private String status;
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String msg;
 
     private LocalDate date;

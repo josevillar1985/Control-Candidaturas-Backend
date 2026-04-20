@@ -3,6 +3,7 @@ package com.controlcandidaturas.controller;
 import com.controlcandidaturas.dto.ApplicationDTO;
 import com.controlcandidaturas.service.ApplicationService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,8 +30,31 @@ public class ApplicationController {
     }
 
     @PostMapping
-    public ApplicationDTO createApplication(@RequestBody ApplicationDTO dto) {
-        System.out.println(dto);
+    public ApplicationDTO createApplication(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String phone,
+            @RequestParam String affair,
+            @RequestParam String msg,
+            @RequestParam String status,
+            @RequestParam String date,
+            @RequestParam("cv") MultipartFile cv
+    ) {
+
+        ApplicationDTO dto = new ApplicationDTO();
+
+        dto.setName(name);
+        dto.setEmail(email);
+        dto.setPhone(phone);
+        dto.setAffair(affair);
+        dto.setMsg(msg);
+        dto.setStatus(status);
+        dto.setDate(LocalDate.parse(date.substring(0, 10)));
+
+        String fileName = cv.getOriginalFilename();
+        dto.setCv(fileName);
+
+        System.out.println("Archivo recibido: " + fileName);
 
         return service.createApplication(dto);
     }
